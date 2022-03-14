@@ -40,6 +40,7 @@ export default function ReactSearchAutocomplete(props) {
 
   const [searchString, setSearchString] = useState(inputSearchString)
   const [results, setResults] = useState()
+  const [isFocused, setIsFocused] = useState(false)
 
   const callOnSearch = (keyword) => {
     let newResults = []
@@ -72,6 +73,15 @@ export default function ReactSearchAutocomplete(props) {
     onSelect(result)
   }
 
+  const handleOnFocus = (result) => {
+    setIsFocused(true)
+  }
+
+  const handleOnBlur = (result) => {
+    setResults([])
+    setIsFocused(false)
+  }
+
   const fuseResults = (keyword) =>
     fuse
       .search(keyword, { limit: maxResults })
@@ -91,8 +101,8 @@ export default function ReactSearchAutocomplete(props) {
           searchString={searchString}
           setSearchString={handleSetSearchString}
           autoFocus={autoFocus}
-          onBlur={() => setResults([])}
-          onFocus={onFocus}
+          onFocus={handleOnFocus}
+          onBlur={handleOnBlur}
           onClear={onClear}
           placeholder={placeholder}
           showIcon={showIcon}
@@ -102,6 +112,7 @@ export default function ReactSearchAutocomplete(props) {
           results={results}
           onClick={handleOnClick}
           onHover={onHover}
+          isFocused={isFocused}
           setSearchString={setSearchString}
           showIcon={showIcon}
           maxResults={maxResults}
@@ -131,6 +142,7 @@ ReactSearchAutocomplete.defaultProps = {
   placeholder: '',
   autoFocus: false,
   onFocus: () => {
+
   },
   styling: {},
   resultStringKeyName: 'name',

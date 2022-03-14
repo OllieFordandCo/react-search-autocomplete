@@ -12,6 +12,7 @@ export default function Results(props) {
     maxResults,
     resultStringKeyName,
     onHover,
+    isFocused,
     formatResult
   } = props
 
@@ -21,26 +22,27 @@ export default function Results(props) {
   }
 
   return (
-    (results?.length > 0 && <StyledResults>
+    (isFocused && <StyledResults>
       <div className='line' />
-      <ul>
+      <div>
         {results.slice(0, maxResults).map((result) => {
           return (
-            <li
+            <button
               onMouseEnter={() => onHover(result)}
               data-test='result'
               key={`rsa-result-${result.id}`}
               onMouseDown={() => handleClick(result)}
               onClick={() => handleClick(result)}
+              tabIndex={0}
             >
               <SearchIcon showIcon={showIcon} />
               <div className='ellipsis' title={result[resultStringKeyName]}>
                 {formatResult(result[resultStringKeyName])}
               </div>
-            </li>
+            </button>
           )
         })}
-      </ul>
+      </div>
     </StyledResults>)
   )
 }
